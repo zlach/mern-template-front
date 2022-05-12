@@ -27,8 +27,6 @@ const Login = () => {
     if (isLoggedIn) navigate('/')
   }, [isLoggedIn, navigate])
 
-  const navigateToSignUp = () => dispatch(reset())
-
   const onSubmit = data =>
     dispatch(
       loginAction({
@@ -37,7 +35,12 @@ const Login = () => {
       })
     )
 
-  const navigateAway = () => dispatch(reset())
+  const navigateToSignUp = () => dispatch(reset())
+
+  const navigateToConfirm = () => {
+    dispatch(reset())
+    // TODO: combine all auth formatters into one method; figure out a better resend confirmation for this use case
+  }
 
   const composeErrMsg = errMsg => {
     const { NOT_CONFIRMED, NOT_AUTHORIZED } = AWS_AUTH_ERR
@@ -47,7 +50,7 @@ const Login = () => {
         return (
           <div>
             Please confirm your account.{' '}
-            <Link onClick={navigateAway} to="/confirm">
+            <Link onClick={navigateToConfirm} to="/confirm">
               Confirm
             </Link>
             .
@@ -57,7 +60,7 @@ const Login = () => {
         return (
           <div>
             Please make sure the email and password match. Or{' '}
-            <Link onClick={navigateAway} to="/signup">
+            <Link onClick={navigateToSignUp} to="/signup">
               sign up
             </Link>
             .
