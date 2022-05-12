@@ -15,9 +15,9 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    reset: (state) => initialState,
+    reset: state => initialState,
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
       .addCase(getUserByEmailAction.pending, (state, action) => {
         state.isLoading = true
@@ -30,7 +30,7 @@ export const userSlice = createSlice({
         state.userErr = action.payload
         state.isLoading = false
       }) // ====================================================
-      .addCase(upsertUserAction.pending, (state) => {
+      .addCase(upsertUserAction.pending, state => {
         state.isLoading = true
       })
       .addCase(upsertUserAction.fulfilled, (state, action) => {
@@ -41,7 +41,7 @@ export const userSlice = createSlice({
         state.userErr = action.payload
         state.isLoading = false
       }) // ====================================================
-      .addCase(createUserAction.pending, (state) => {
+      .addCase(createUserAction.pending, state => {
         state.isLoading = true
       })
       .addCase(createUserAction.fulfilled, (state, action) => {

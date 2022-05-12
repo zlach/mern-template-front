@@ -24,9 +24,9 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    reset: (state) => initialState,
+    reset: state => initialState,
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
       .addCase(signUpAction.pending, (state, action) => {
         state.isLoading = true
