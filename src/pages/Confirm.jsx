@@ -34,7 +34,11 @@ const Confirm = () => {
     }
   }, [user, navigate, dispatch])
 
-  const handleResendCode = () => dispatch(resendConfirmAction({ username: formatEmail(resendEmail) }))
+  const handleResendCode = e => {
+    e.preventDefault()
+    dispatch(resendConfirmAction({ username: formatEmail(resendEmail) }))
+    setResendEmail('')
+  }
 
   const onSubmit = data => {
     const { code, email, pwd } = formatConfirmData(data)
@@ -74,6 +78,10 @@ const Confirm = () => {
         return <div>Sorry, something went wrong. Please try again later.</div>
     }
   }
+
+  const submitDisabled = () => isLoading || !watchCode || (!watchEmail && !username) || (!watchPassword && !password)
+
+  const resendDisabled = () => isLoading || !resendEmail.match(emailRegex)
 
   return (
     <div className="container">
@@ -124,25 +132,18 @@ const Confirm = () => {
           />
           {errors && errors.email && <span className="text-danger">{errors.email.message}</span>}
         </div>
-        <input
-          disabled={isLoading || !watchCode || (!watchEmail && !username) || (!watchPassword && !password)}
-          value="Submit"
-          className="form-control btn btn-primary mt-4"
-          type="submit"
-        />
+        <input disabled={submitDisabled()} value="Submit" className="form-control btn btn-primary mt-4" type="submit" />
       </form>
       <div className="my-4">-or-</div>
-      <div className="form-group">
-        <label>Email:</label>
-        <input value={resendEmail} onChange={e => setResendEmail(e.target.value)} className="form-control" />
-      </div>
-      <input
-        value="Resend Code"
-        className="form-control btn btn-primary mt-4"
-        onClick={handleResendCode}
-        disabled={isLoading || !resendEmail}
-        type="button"
-      />
+      <form onSubmit={handleResendCode}>
+        <div className="form-group">
+          <label>Email:</label>
+          <input value={resendEmail} onChange={e => setResendEmail(e.target.value)} className="form-control" />
+        </div>
+        <button className="form-control btn btn-primary mt-4" disabled={resendDisabled()} type="submit">
+          Resend Code
+        </button>
+      </form>
       {authErr && <span className="text-danger">{composeErrMsg(authErr)}</span>}
     </div>
   )

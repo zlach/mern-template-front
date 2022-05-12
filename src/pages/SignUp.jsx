@@ -63,7 +63,7 @@ const SignUp = () => {
   return (
     <div className="container">
       <h2>Sign Up</h2>
-      <Link to="/login">or Log in</Link>
+      <Link to="/login">or Log In</Link>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-group">
           <label>Email:</label>
