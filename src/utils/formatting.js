@@ -1,24 +1,14 @@
 import trim from 'lodash/trim'
 import toLower from 'lodash/toLower'
 
-export const formatSignUpData = data => {
+export const formatAuthData = data => {
   const username = toLower(trim(data.email))
-
-  return {
-    username,
-    password: data.password,
-  }
-}
-
-export const formatConfirmData = data => {
-  const email = toLower(trim(data.email))
+  const password = data.password
   const code = trim(data.code)
 
   return {
-    email,
-    code,
-    pwd: data.password,
+    ...(username && { username }),
+    ...(password && { password }),
+    ...(code && { code }),
   }
 }
-
-export const formatEmail = email => toLower(trim(email))

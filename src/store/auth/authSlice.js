@@ -16,7 +16,6 @@ const initialState = {
   password: '',
   authErr: '',
   isLoading: false,
-  isConfirmed: false,
   isLoggedIn: false,
 }
 
@@ -68,7 +67,6 @@ export const authSlice = createSlice({
       .addCase(loginAction.fulfilled, (state, action) => {
         state.isLoggedIn = true
         state.isLoading = false
-        state.isConfirmed = false
         state.cognitoId = ''
         state.username = ''
         state.password = ''

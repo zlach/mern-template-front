@@ -11,4 +11,5 @@ export const AWS_AUTH_ERR = {
   CODE_MISMATCH: 'CodeMismatchException',
   NOT_AUTHORIZED: 'NotAuthorizedException',
   NOT_CONFIRMED: 'UserNotConfirmedException',
+  LIMIT_EXCEEDED: 'LimitExceededException',
 }

@@ -69,9 +69,3 @@ export const logout = async () => {
     throw ERROR_MESSAGE.AUTH
   }
 }
-
-// export const confirmSignUp = data => Auth.confirmSignUp(data.username, data.code)
-
-// export const resendConfirm = data => Auth.resendSignUp(data.username)
-
-// export const login = data => Auth.signIn(data.username, data.password)

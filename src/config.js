@@ -1,11 +1,10 @@
-// export const API_URL = 'http://adminportalbackend-env-1.eba-hp42uqtm.us-east-1.elasticbeanstalk.com'
-export const API_URL = 'http://localhost:3001'
+export const API_URL = process.env.REACT_APP_API_URL
 
 export const awsconfig = {
-  region: 'us-east-1',
-  CognitoIdentityPoolId: 'us-east-1:fc2eb573-22f6-4414-9e7e-3c1bc6055691',
-  CognitoUserPoolId: 'us-east-1_sCYr6Mrga',
-  CognitoClientId: '2c9rjb00uqoa92230t8ofubpl2',
+  region: process.env.REACT_APP_REGION,
+  CognitoIdentityPoolId: process.env.REACT_APP_IDENTITY_POOL,
+  CognitoUserPoolId: process.env.REACT_APP_USER_POOL,
+  CognitoClientId: process.env.REACT_APP_CLIENT_ID,
 }
 
 export const authconfig = {

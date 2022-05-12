@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { loginAction } from '../store/auth/authActions'
+import { loginAction, resendConfirmAction } from '../store/auth/authActions'
 import { emailRegex } from '../utils/validation'
 import { reset } from '../store/auth/authSlice'
 import { AWS_AUTH_ERR } from '../utils/constants'
+import { formatAuthData } from '../utils/formatting'
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
-  const { isLoggedIn, authErr, isLoading } = useSelector(state => state.auth)
+  const { authErr, isLoading } = useSelector(state => state.auth)
   const {
     handleSubmit,
     register,
@@ -23,37 +24,37 @@ const Login = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    if (isLoggedIn) navigate('/')
-  }, [isLoggedIn, navigate])
+  const onSubmit = async data => {
+    const { NOT_CONFIRMED } = AWS_AUTH_ERR
+    const formatted = formatAuthData(data)
+    const { username } = formatted
 
-  const onSubmit = data =>
-    dispatch(
-      loginAction({
-        username: data.email,
-        password: data.password,
-      })
-    )
+    try {
+      await dispatch(loginAction(formatted)).unwrap()
+
+      dispatch(reset())
+      navigate('/')
+    } catch (err) {
+      if (err === NOT_CONFIRMED) {
+        await dispatch(resendConfirmAction({ username })).unwrap()
+
+        navigate('/confirm')
+      }
+    }
+  }
 
   const navigateToSignUp = () => dispatch(reset())
 
-  const navigateToConfirm = () => {
-    dispatch(reset())
-    // TODO: combine all auth formatters into one method; figure out a better resend confirmation for this use case
-  }
-
   const composeErrMsg = errMsg => {
-    const { NOT_CONFIRMED, NOT_AUTHORIZED } = AWS_AUTH_ERR
+    const { NOT_CONFIRMED, NOT_AUTHORIZED, LIMIT_EXCEEDED } = AWS_AUTH_ERR
 
     switch (errMsg) {
+      case LIMIT_EXCEEDED:
+        return <div>Too many attempts. Please try again later.</div>
       case NOT_CONFIRMED:
         return (
           <div>
-            Please confirm your account.{' '}
-            <Link onClick={navigateToConfirm} to="/confirm">
-              Confirm
-            </Link>
-            .
+            Please confirm your account. <Link to="/confirm">Confirm</Link>.
           </div>
         )
       case NOT_AUTHORIZED:

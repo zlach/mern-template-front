@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import isEmpty from 'lodash/isEmpty'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { signUpAction } from '../store/auth/authActions'
-import { formatSignUpData } from '../utils/formatting'
+import { formatAuthData } from '../utils/formatting'
 import { AWS_AUTH_ERR } from '../utils/constants'
 import { emailRegex } from '../utils/validation'
 
@@ -14,25 +13,34 @@ const SignUp = () => {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm()
-  const { isLoading, authErr, cognitoId } = useSelector(state => state.auth)
+  } = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  })
+
+  const { isLoading, authErr } = useSelector(state => state.auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    if (!isEmpty(cognitoId)) navigate('/confirm')
-  }, [cognitoId, navigate])
+  const onSubmit = async data => {
+    const formatted = formatAuthData(data)
 
-  const onSubmit = data => {
-    const formatted = formatSignUpData(data)
-
-    dispatch(signUpAction(formatted))
+    try {
+      await dispatch(signUpAction(formatted)).unwrap()
+      navigate('/confirm')
+    } catch (err) {
+      // Do nothing
+    }
   }
 
   const composeErrMsg = errMsg => {
-    const { USERNAME_EXISTS, INVALID_PARAMETER, INVALID_PASSWORD } = AWS_AUTH_ERR
+    const { USERNAME_EXISTS, INVALID_PARAMETER, INVALID_PASSWORD, LIMIT_EXCEEDED } = AWS_AUTH_ERR
 
     switch (errMsg) {
+      case LIMIT_EXCEEDED:
+        return <div>Too many attempts. Please try again later.</div>
       case INVALID_PASSWORD:
         return (
           <div>
