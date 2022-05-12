@@ -22,7 +22,7 @@ function App() {
       <RouteListener>
         <Routes>
           <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-            {/* <Route index element={<Home />} /> */}
+            <Route index element={<Home />} />
           </Route>
           <Route path="/login" element={<UnprotectedRoute><LogIn /></UnprotectedRoute>} />
           <Route path="/confirm" element={<UnprotectedRoute><Confirm /></UnprotectedRoute>} />

@@ -18,10 +18,16 @@ const Navbar = () => {
 
   return (
     <nav className="navbar navbar-dark bg-dark">
-      <h1 className="navbar-brand">App</h1>
-      <button className="nav-link" type="button" onClick={handleLogout}>
-        Logout
-      </button>
+      <div className="container">
+        <h1 className="navbar-brand">App</h1>
+        <ul className="navbar-nav">
+          <li className="nav-item">
+            <span className="nav-link" type="button" onClick={handleLogout}>
+              Logout
+            </span>
+          </li>
+        </ul>
+      </div>
     </nav>
   )
 }
