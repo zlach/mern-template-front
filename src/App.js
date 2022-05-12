@@ -11,7 +11,7 @@ import SignUp from './pages/SignUp'
 import Confirm from './pages/Confirm'
 import ProtectedRoute from './components/navigation/ProtectedRoute'
 import UnprotectedRoute from './components/navigation/UnprotectedRoute'
-import Layout from './components/navigation/Layout'
+import Layout from './components/Layout'
 import RouteListener from './components/navigation/RouteListener'
 
 Amplify.configure(authconfig)
