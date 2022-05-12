@@ -2,7 +2,7 @@ import React from 'react'
 
 const Home = () => {
   return (
-    <div>
+    <div className="container">
       <h2 className="text-center">MERN Frontend Starter Template</h2>
       <ul>
         <li>AWS Amplify Cognito Login and Authentication</li>
