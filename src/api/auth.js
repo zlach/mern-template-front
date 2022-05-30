@@ -19,7 +19,7 @@ export const signUp = async data => {
       cognitoId: userSub,
     }
   } catch (err) {
-    throw err.code
+    throw err.code || ERROR_MESSAGE.AUTH
   }
 }
 
@@ -29,7 +29,7 @@ export const retrieveAuthUser = async () => {
     await Auth.currentAuthenticatedUser()
     return
   } catch (err) {
-    throw err
+    throw typeof err === 'string' ? err : ERROR_MESSAGE.AUTH
   }
 }
 
@@ -38,7 +38,7 @@ export const confirmSignUp = async data => {
     await Auth.confirmSignUp(data.username, data.code)
     return
   } catch (err) {
-    throw err.code
+    throw err.code || ERROR_MESSAGE.AUTH
   }
 }
 
@@ -47,7 +47,7 @@ export const resendConfirm = async data => {
     await Auth.resendSignUp(data.username)
     return
   } catch (err) {
-    throw err.code
+    throw err.code || ERROR_MESSAGE.AUTH
   }
 }
 
@@ -57,7 +57,7 @@ export const login = async data => {
 
     return res.attributes.sub
   } catch (err) {
-    throw err.code
+    throw err.code || ERROR_MESSAGE.AUTH
   }
 }
 
@@ -67,5 +67,16 @@ export const logout = async () => {
     return
   } catch (err) {
     throw ERROR_MESSAGE.AUTH
+  }
+}
+
+export const forgotPassword = async data => {
+  try {
+    const res = await Auth.forgotPassword(data.username)
+    console.log('res', res)
+    return
+  } catch (err) {
+    console.log('err', err)
+    throw err.code || ERROR_MESSAGE.AUTH
   }
 }

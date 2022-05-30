@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { signUp, login, confirmSignUp, resendConfirm, retrieveAuthUser, logout } from '../../api/auth'
+import { signUp, login, confirmSignUp, resendConfirm, retrieveAuthUser, logout, forgotPassword } from '../../api/auth'
 import { createUserAction, upsertUserAction } from '../user/userActions'
 
 export const signUpAction = createAsyncThunk('auth/signUp', async (data, thunkAPI) => {
@@ -79,6 +79,14 @@ export const logoutAction = createAsyncThunk('auth/logout', async (data, thunkAP
 export const retrieveAuthUserAction = createAsyncThunk('auth/retrieveAuthUser', async (data, thunkAPI) => {
   try {
     return await retrieveAuthUser(data)
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err)
+  }
+})
+
+export const forgotPasswordAction = createAsyncThunk('auth/forgotPassword', async (data, thunkAPI) => {
+  try {
+    return await forgotPassword(data)
   } catch (err) {
     return thunkAPI.rejectWithValue(err)
   }

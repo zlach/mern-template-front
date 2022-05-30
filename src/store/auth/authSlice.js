@@ -7,6 +7,7 @@ import {
   loginAction,
   retrieveAuthUserAction,
   logoutAction,
+  forgotPasswordAction,
 } from './authActions'
 import { routeChangeAction } from '../commonActions'
 
@@ -84,6 +85,15 @@ export const authSlice = createSlice({
         state.isLoading = false
       })
       .addCase(retrieveAuthUserAction.rejected, (state, action) => {
+        state.isLoading = false
+      }) // ====================================================
+      .addCase(forgotPasswordAction.pending, (state, action) => {
+        state.isLoading = true
+      })
+      .addCase(forgotPasswordAction.fulfilled, (state, action) => {
+        state.isLoading = false
+      })
+      .addCase(forgotPasswordAction.rejected, (state, action) => {
         state.isLoading = false
       }) // ====================================================
       .addCase(logoutAction.pending, (state, action) => {
