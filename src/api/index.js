@@ -16,7 +16,7 @@ authAxios.interceptors.request.use(async function (config) {
 
     config.headers.authorization = `Bearer ${authUser.signInUserSession.idToken.jwtToken}`
   } catch (error) {
-    console.log('Not logged in')
+    console.log('Not logged in') // TODO: should probably log the user out here unless we can refresh token
   }
 
   return config
