@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { loginAction, resendConfirmAction, forgotPasswordAction } from '../store/auth/authActions'
+import { loginAction, resendConfirmAction /*forgotPasswordAction*/ } from '../store/auth/authActions'
 import { emailRegex } from '../utils/validation'
 import { reset } from '../store/auth/authSlice'
 import { AWS_AUTH_ERR } from '../utils/constants'
@@ -10,8 +10,8 @@ import { formatAuthData } from '../utils/formatting'
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
-  const [forgotPassword, setForgotPassword] = useState(false)
-  const [forgotPasswordEmail, setForgotPasswordEmail] = useState('')
+  // const [forgotPassword, setForgotPassword] = useState(false)
+  // const [forgotPasswordEmail, setForgotPasswordEmail] = useState('')
   const { authErr, isLoading } = useSelector(state => state.auth)
   const {
     handleSubmit,
@@ -74,14 +74,14 @@ const Login = () => {
     }
   }
 
-  const handleForgot = e => {
-    e.preventDefault()
-    const { username } = formatAuthData({ email: forgotPasswordEmail })
+  // const handleForgot = e => {
+  //   e.preventDefault()
+  //   const { username } = formatAuthData({ email: forgotPasswordEmail })
 
-    dispatch(forgotPasswordAction({ username }))
-  }
+  //   dispatch(forgotPasswordAction({ username }))
+  // }
 
-  const handleForgotDisabled = () => isLoading || !forgotPasswordEmail.match(emailRegex)
+  // const handleForgotDisabled = () => isLoading || !forgotPasswordEmail.match(emailRegex)
 
   return (
     <div className="container">
@@ -122,7 +122,7 @@ const Login = () => {
         </div>
         <input value="Submit" className="form-control btn btn-primary mt-4" disabled={isLoading} type="submit" />
       </form>
-      <div className="py-4">
+      {/* <div className="py-4">
         <button
           type="button"
           className="btn btn-link d-inline align-baseline"
@@ -146,7 +146,7 @@ const Login = () => {
             Resend Code
           </button>
         </form>
-      )}
+      )} */}
       {authErr && <span className="text-danger">{composeErrMsg(authErr)}</span>}
     </div>
   )

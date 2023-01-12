@@ -6,16 +6,6 @@ export const signUpAction = createAsyncThunk('auth/signUp', async (data, thunkAP
   try {
     const res = await signUp(data)
 
-    await thunkAPI
-      .dispatch(
-        createUserAction({
-          email: res.username,
-          cognitoId: res.cognitoId,
-          isConfirmed: false,
-        })
-      )
-      .unwrap()
-
     return res
   } catch (err) {
     return thunkAPI.rejectWithValue(err)
@@ -28,13 +18,6 @@ export const confirmSignUpAction = createAsyncThunk('auth/confirmSignUp', async 
       username: data.username,
       code: data.code,
     })
-
-    await thunkAPI.dispatch(
-      loginAction({
-        username: data.username,
-        password: data.password,
-      })
-    )
 
     return
   } catch (err) {
@@ -52,17 +35,7 @@ export const resendConfirmAction = createAsyncThunk('auth/resendConfirm', async 
 
 export const loginAction = createAsyncThunk('auth/login', async (data, thunkAPI) => {
   try {
-    const res = await login(data)
-
-    await thunkAPI.dispatch(
-      upsertUserAction({
-        isConfirmed: true,
-        email: data.username,
-        cognitoId: res,
-      })
-    )
-
-    return
+    return await login(data)
   } catch (err) {
     return thunkAPI.rejectWithValue(err)
   }

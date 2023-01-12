@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import { Hub } from 'aws-amplify'
 import { confirmSignUpAction, resendConfirmAction } from '../store/auth/authActions'
 import { formatAuthData } from '../utils/formatting'
 import { emailRegex } from '../utils/validation'
@@ -9,7 +10,7 @@ import { reset } from '../store/auth/authSlice'
 import { AWS_AUTH_ERR } from '../utils/constants'
 
 const Confirm = () => {
-  const [showPassword, setShowPassword] = useState(false)
+  const [awaitingSignIn, setAwaitingSignIn] = useState(false)
   const [resendEmail, setResendEmail] = useState('')
   const [displayResend, setDisplayResend] = useState(false)
   const [resendSuccess, setResendSuccess] = useState(false)
@@ -22,18 +23,15 @@ const Confirm = () => {
     defaultValues: {
       email: '',
       code: '',
-      password: '',
     },
   })
 
-  const { username, authErr, isLoading, password } = useSelector(state => state.auth)
-  const { user } = useSelector(state => state.user)
+  const { username, authErr, isLoading } = useSelector(state => state.auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const watchEmail = watch('email')
   const watchCode = watch('code')
-  const watchPassword = watch('password')
 
   const handleResendCode = async e => {
     e.preventDefault()
@@ -47,22 +45,33 @@ const Confirm = () => {
     }
   }
 
+  const listenToAutoSignInEvent = () => {
+    Hub.listen('auth', ({ payload }) => {
+      const { event } = payload
+      if (event === 'autoSignIn') {
+        // const user = payload.data
+        dispatch(reset())
+        navigate('/')
+      } else if (event === 'autoSignIn_failure') {
+        // redirect to sign in page
+        navigate('/login')
+      }
+    })
+  }
+
   const onSubmit = async data => {
-    const { code, username: email, password: pwd } = formatAuthData(data)
+    const { code, username: email } = formatAuthData(data)
 
     try {
+      listenToAutoSignInEvent()
+      setAwaitingSignIn(true)
+
       await dispatch(
         confirmSignUpAction({
           username: username || email,
           code,
-          id: user._id || null,
-          cognitoId: user.cognitoId || null,
-          password: password || pwd,
         })
       ).unwrap()
-
-      dispatch(reset())
-      navigate('/')
     } catch (err) {
       // Do nothing
     }
@@ -95,16 +104,14 @@ const Confirm = () => {
     }
   }
 
-  const submitDisabled = () => isLoading || !watchCode || (!watchEmail && !username) || (!watchPassword && !password)
+  const submitDisabled = () => isLoading || !watchCode || (!watchEmail && !username)
 
   const resendDisabled = () => isLoading || !resendEmail.match(emailRegex)
 
   return (
     <div className="container">
       <h2>Confirm</h2>
-      {((username && password) || resendSuccess) && (
-        <h3 className="text-success">A confirmation code has been emailed to you.</h3>
-      )}
+      {username && resendSuccess && <h3 className="text-success">A confirmation code has been emailed to you.</h3>}
       <form onSubmit={handleSubmit(onSubmit)}>
         {!username && (
           <div className="form-group">
@@ -117,27 +124,6 @@ const Confirm = () => {
               })}
             />
             {errors && errors.email && <span className="text-danger">{errors.email.message}</span>}
-          </div>
-        )}
-        {!username && (
-          <div className="form-group">
-            <label>Password:</label>
-            <div className="input-group">
-              <input
-                className="form-control"
-                type={showPassword ? 'text' : 'password'}
-                {...register('password', { required: true })}
-              />
-              <div className="input-group-append">
-                <button
-                  className="btn btn-outline-secondary"
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  Show
-                </button>
-              </div>
-            </div>
           </div>
         )}
         <div className="form-group">

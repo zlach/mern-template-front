@@ -12,9 +12,7 @@ import {
 import { routeChangeAction } from '../commonActions'
 
 const initialState = {
-  cognitoId: '',
   username: '',
-  password: '',
   authErr: '',
   isLoading: false,
   isLoggedIn: false,
@@ -32,9 +30,7 @@ export const authSlice = createSlice({
         state.isLoading = true
       })
       .addCase(signUpAction.fulfilled, (state, action) => {
-        state.cognitoId = action.payload.cognitoId
-        state.username = action.payload.username
-        state.password = action.payload.password
+        state.username = action.payload
         state.isLoading = false
       })
       .addCase(signUpAction.rejected, (state, action) => {
@@ -46,7 +42,6 @@ export const authSlice = createSlice({
       })
       .addCase(confirmSignUpAction.fulfilled, (state, action) => {
         state.isLoading = false
-        state.username = action.payload
       })
       .addCase(confirmSignUpAction.rejected, (state, action) => {
         state.authErr = action.payload

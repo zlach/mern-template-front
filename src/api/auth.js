@@ -5,21 +5,20 @@ export const signUp = async data => {
   const { username, password } = data
 
   try {
-    const { userSub } = await Auth.signUp({
+    await Auth.signUp({
       username,
       password,
       attributes: {
         email: username,
       },
+      autoSignIn: {
+        enabled: true,
+      },
     })
 
-    return {
-      username,
-      password,
-      cognitoId: userSub,
-    }
+    return username
   } catch (err) {
-    throw err.code || ERROR_MESSAGE.AUTH
+    throw err.code
   }
 }
 
@@ -38,7 +37,7 @@ export const confirmSignUp = async data => {
     await Auth.confirmSignUp(data.username, data.code)
     return
   } catch (err) {
-    throw err.code || ERROR_MESSAGE.AUTH
+    throw err.code
   }
 }
 
@@ -57,7 +56,7 @@ export const login = async data => {
 
     return res.attributes.sub
   } catch (err) {
-    throw err.code || ERROR_MESSAGE.AUTH
+    throw err.code
   }
 }
 
