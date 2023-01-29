@@ -1,4 +1,6 @@
-To run this you need a .env in the root with the following variables:
+Intended for use with mern-template-back
+
+You need a .env in the root with the following variables:
 
 REACT_APP_BASE_URL='http://localhost:3000'  
 REACT_APP_API_URL='http://localhost:3001'  
