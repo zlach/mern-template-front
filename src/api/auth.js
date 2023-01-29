@@ -25,16 +25,21 @@ export const signUp = async data => {
 export const retrieveAuthUser = async () => {
   // eslint-disable-next-line no-useless-catch
   try {
-    await Auth.currentAuthenticatedUser()
-    return
+    const user = await Auth.currentAuthenticatedUser()
+
+    return {
+      cognitoId: user.attributes.sub,
+      email: user.attributes.email,
+    }
   } catch (err) {
-    throw typeof err === 'string' ? err : ERROR_MESSAGE.AUTH
+    throw err
   }
 }
 
 export const confirmSignUp = async data => {
   try {
     await Auth.confirmSignUp(data.username, data.code)
+
     return
   } catch (err) {
     throw err.code
@@ -44,6 +49,7 @@ export const confirmSignUp = async data => {
 export const resendConfirm = async data => {
   try {
     await Auth.resendSignUp(data.username)
+
     return
   } catch (err) {
     throw err.code || ERROR_MESSAGE.AUTH
@@ -63,6 +69,7 @@ export const login = async data => {
 export const logout = async () => {
   try {
     await Auth.signOut()
+
     return
   } catch (err) {
     throw ERROR_MESSAGE.AUTH
