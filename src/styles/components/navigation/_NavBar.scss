@@ -1,24 +1,5 @@
 .navbar-custom {
   border-bottom: 5px solid lightgray;
-  position: fixed;
-  left: 0px;
-  right: 0px;
-  top: 0px;
-  background-color: white;
-  /* height: 65px; */
-  /* overflow: visible; */
-  z-index: 10;
-
-  .logo {
-    margin-bottom: 0px;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-
-  .custom-nav-link {
-    white-space: nowrap;
-    appearance: none;
-  }
 }
 
 /* X-Small devices (portrait phones, less than 576px) */
@@ -55,6 +36,6 @@
 /* XX-Large devices (larger desktops, 1400px and up) */
 @media (min-width: 1400px) {
   .navbar-custom {
-  border-bottom: 5px solid black;
+  border-bottom: 5px solid lightblue;
 }
 }
