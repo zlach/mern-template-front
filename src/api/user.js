@@ -24,7 +24,7 @@ export const upsertUser = async data => {
 
 export const createUser = async data => {
   try {
-    const res = await publicAxios.post('/api/public/v1/users', data)
+    const res = await publicAxios.post('/api/auth/v1/users', data)
 
     return res.data
   } catch (err) {
