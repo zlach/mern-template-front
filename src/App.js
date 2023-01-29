@@ -14,7 +14,7 @@ import ProtectedRoute from './components/navigation/ProtectedRoute'
 import UnprotectedRoute from './components/navigation/UnprotectedRoute'
 import Layout from './components/Layout'
 import RouteListener from './components/navigation/RouteListener'
-// import Onboarding from './pages/Onboarding'
+import Onboarding from './pages/Onboarding'
 
 Amplify.configure(authconfig)
 
@@ -29,7 +29,7 @@ function App() {
           <Route path="/login" element={<UnprotectedRoute><LogIn /></UnprotectedRoute>} />
           <Route path="/confirm" element={<UnprotectedRoute><Confirm /></UnprotectedRoute>} />
           <Route path="/signup" element={<UnprotectedRoute><SignUp /></UnprotectedRoute>} />
-          {/* <Route path="/onboarding" element={<Onboarding />} /> */}
+          <Route path="/onboarding" element={<Onboarding />} />
         </Routes>
       </RouteListener>
     </Provider>

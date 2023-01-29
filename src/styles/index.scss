@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&display=swap');
+
+// @import '../../node_modules/bootstrap/scss/functions';
+// @import '../../node_modules/bootstrap/scss/variables';
+
+// $grid-columns: 10;
+
+@import '../../node_modules/bootstrap/scss/bootstrap';
+
+@import './components/navigation/_NavBar.scss';
+
+@import './components/forms/_Text.scss';
+
+@import './pages/_Home.scss';
+@import './pages/_Onboarding.scss';
+
+@import './components/_Layout.scss';
+@import './components/_Flowers.scss';
+
+body {
+  margin: 0;
+  padding: 0;
+  // font-family: 'Inter', sans-serif;
+  // font-family: 'Playfair Display', serif;
+  font-family: 'EB Garamond', serif;
+  font-weight: 500;
+  font-size: 1.2rem;
+  // color: rgb(207, 255, 230);
+
+  // background-color: rgb(35, 36, 38);
+  // color: lightgray;
+  /* overscroll-behavior-y: none; */
+}

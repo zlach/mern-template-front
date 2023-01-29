@@ -1,0 +1,22 @@
+.text-form {
+  .custom-textarea{
+    resize: none;
+  }
+  .custom-submit {
+    // font-size: 1.5rem;
+    background-color: rgb(248, 248, 248);
+    border: 1px solid lightgray;
+    // color: rgb(255, 145, 224);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    &:hover {
+      background-color: rgb(233, 233, 233);
+
+      // color: rgb(254, 72, 203);
+    }
+    &:focus {
+      box-shadow: 0 0 0 0.25rem rgba(99, 255, 172, 0.557);
+    }
+  }
+}

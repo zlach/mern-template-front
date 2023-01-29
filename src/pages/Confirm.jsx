@@ -51,7 +51,7 @@ const Confirm = () => {
       if (event === 'autoSignIn') {
         // const user = payload.data
         dispatch(reset())
-        navigate('/')
+        navigate('/onboarding')
       } else if (event === 'autoSignIn_failure') {
         // redirect to sign in page
         navigate('/login')
@@ -108,7 +108,11 @@ const Confirm = () => {
 
   const resendDisabled = () => isLoading || !resendEmail.match(emailRegex)
 
-  return (
+  return awaitingSignIn ? (
+    <div class="spinner-border" role="status">
+      {/* TODO: we need an official loader that will incorporate our logo */}
+    </div>
+  ) : (
     <div className="container">
       <h2>Confirm</h2>
       {username && resendSuccess && <h3 className="text-success">A confirmation code has been emailed to you.</h3>}

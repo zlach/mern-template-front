@@ -1,5 +1,21 @@
+import queryString from 'query-string'
+
 import { authAxios, publicAxios } from '.'
 import { formatApiError } from '../utils/errors'
+
+export const getUser = async params => {
+  const { id, includeWickshelf = true } = params
+
+  try {
+    const query = queryString.stringify({ includeWickshelf })
+
+    const res = await authAxios.get(`/api/auth/v1/users/${id}?${query}`)
+
+    return res.data
+  } catch (err) {
+    throw formatApiError(err)
+  }
+}
 
 export const getUserByEmail = async params => {
   try {

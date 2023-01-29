@@ -1,0 +1,60 @@
+.navbar-custom {
+  border-bottom: 5px solid lightgray;
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  background-color: white;
+  /* height: 65px; */
+  /* overflow: visible; */
+  z-index: 10;
+
+  .logo {
+    margin-bottom: 0px;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  .custom-nav-link {
+    white-space: nowrap;
+    appearance: none;
+  }
+}
+
+/* X-Small devices (portrait phones, less than 576px) */
+/* No media query for `xs` since this is the default in Bootstrap */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  .navbar-custom {
+  border-bottom: 5px solid green;
+}
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .navbar-custom {
+  border-bottom: 5px solid sandybrown;
+}
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .navbar-custom {
+  border-bottom: 5px solid blue;
+}
+}
+
+/* X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .navbar-custom {
+  border-bottom: 5px solid pink;
+}
+}
+
+/* XX-Large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) {
+  .navbar-custom {
+  border-bottom: 5px solid black;
+}
+}
